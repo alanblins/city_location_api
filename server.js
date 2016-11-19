@@ -60,7 +60,7 @@ function openShape(req, res,type){
 					  if (result.done){
 										
 						index++;
-						if(index>shapes.length){
+						if(index>shapes.length-1){
 							res.json({NM_MUNICIP:'nao encontrado','CD_GEOCMU':0});
 							return;
 						}else{
