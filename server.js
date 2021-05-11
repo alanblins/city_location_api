@@ -13,22 +13,25 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var port = process.env.PORT || 8089;        
-
-
 var router = express.Router();             
 
 router.use(function(req, res, next) {
     next(); 
 });
 
-
 router.route('/city').get(function(req, res) {
 	openShape(req, res,'feature');  
 });
 
-
 router.route('/city/properties').get(function(req, res) {
-	openShape(req, res,'properties');  
+	searchByLongLatFromMultipleShapes(req.query.longitude, req.query.latitude, pathObjs).then( valueFound => {
+		if(valueFound){
+			res.json(result.value.properties);
+		}else{
+			res.json({NM_MUNICIP:'nao encontrado','CD_GEOCMU':0});
+		}
+	});
+
 });
 
 router.route('/city/geometry').get(function(req, res) {
@@ -101,4 +104,18 @@ function getShapesFilesNames(){
 		{state:'sp',shape:'35MUE250GC_SIR'},
 		{state:'pa',shape:'15MUE250GC_SIR'}
 	];
+}
+function parsePathObj(shape){
+    return {
+        shapePath: getShpPath(shape),
+        dbfPath: getDbfPath(shape)
+    }
+}
+
+function getDbfPath(shape){
+    return "malhas_municipais/"+shape.state+"/"+shape.shape+".dbf";
+}
+
+function getShpPath(shape){
+    return "malhas_municipais/"+shape.state+"/"+shape.shape+".shp";
 }

@@ -11,7 +11,9 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "ftp": "^0.3.10",
     "geojson-utils": "^1.1.0",
-    "shapefile": "^0.5.8"
+    "shapefile": "^0.5.11",
+    "unzip": "^0.1.11"
   }
 }
